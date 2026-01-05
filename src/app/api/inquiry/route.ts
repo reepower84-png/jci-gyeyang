@@ -1,6 +1,61 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 
+async function sendDiscordNotification(name: string, phone: string, message: string) {
+  const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
+
+  if (!webhookUrl) {
+    console.warn("Discord webhook URL이 설정되지 않았습니다.");
+    return;
+  }
+
+  const now = new Date();
+  const koreanTime = new Date(now.getTime() + (9 * 60 * 60 * 1000));
+  const formattedDate = koreanTime.toISOString().replace('T', ' ').substring(0, 19);
+
+  const embed = {
+    embeds: [
+      {
+        title: "새로운 문의가 접수되었습니다",
+        color: 0x0066cc,
+        fields: [
+          {
+            name: "이름",
+            value: name,
+            inline: true,
+          },
+          {
+            name: "연락처",
+            value: phone,
+            inline: true,
+          },
+          {
+            name: "문의내용",
+            value: message || "(내용 없음)",
+            inline: false,
+          },
+        ],
+        footer: {
+          text: "인천계양청년회의소",
+        },
+        timestamp: now.toISOString(),
+      },
+    ],
+  };
+
+  try {
+    await fetch(webhookUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(embed),
+    });
+  } catch (error) {
+    console.error("Discord 알림 전송 실패:", error);
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -29,6 +84,9 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
+
+    // Discord로 알림 전송
+    await sendDiscordNotification(name, phone, message);
 
     return NextResponse.json(
       { message: "문의가 성공적으로 접수되었습니다." },
