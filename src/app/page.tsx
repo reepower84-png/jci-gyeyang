@@ -5,6 +5,7 @@ import Activities from "@/components/Activities";
 import Benefits from "@/components/Benefits";
 import ContactForm from "@/components/ContactForm";
 import Footer from "@/components/Footer";
+import KakaoFloatingButton from "@/components/KakaoFloatingButton";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <Benefits />
       <ContactForm />
       <Footer />
+      <KakaoFloatingButton />
     </main>
   );
 }
