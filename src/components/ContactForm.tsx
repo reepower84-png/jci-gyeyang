@@ -151,6 +151,18 @@ export default function ContactForm() {
               >
                 {isSubmitting ? "접수 중..." : "문의하기"}
               </button>
+
+              <a
+                href="http://pf.kakao.com/_YyZMxj/chat"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full bg-[#FEE500] text-[#391B1B] py-4 rounded-lg font-bold hover:bg-[#FDD800] transition-all flex items-center justify-center gap-2"
+              >
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M12 3C6.477 3 2 6.477 2 10.8c0 2.79 1.86 5.24 4.66 6.65-.2.7-.74 2.6-.85 3.01-.13.51.19.5.4.36.16-.1 2.6-1.77 3.65-2.49.7.1 1.42.17 2.14.17 5.523 0 10-3.477 10-7.7C22 6.477 17.523 3 12 3z" />
+                </svg>
+                카카오톡으로 상담하기
+              </a>
             </form>
 
             <p className="mt-4 text-sm text-gray-500 text-center">
